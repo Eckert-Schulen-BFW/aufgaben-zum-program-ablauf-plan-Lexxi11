@@ -1,0 +1,108 @@
+# .github/workflows/classroom.yml
+name: Autograding Tests
+on:
+  - push
+  - workflow_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build
+        run: cd src && dotnet build --nologo -q
+
+      - name: TC-01 Normalgewicht
+        id: tc-01
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: "TC-01: Normalgewicht"
+          command: "cd src && dotnet run --no-build"
+          input: "Max Mustermann\n70\n1.75"
+          expected-output: "Normalgewicht"
+          comparison-method: included
+          timeout: 10
+          max-score: 3
+
+      - name: TC-02 Untergewicht
+        id: tc-02
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: "TC-02: Untergewicht"
+          command: "cd src && dotnet run --no-build"
+          input: "Lisa Beispiel\n50\n1.70"
+          expected-output: "Untergewicht"
+          comparison-method: included
+          timeout: 10
+          max-score: 3
+
+      - name: TC-03 Uebergewicht
+        id: tc-03
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: "TC-03: Uebergewicht"
+          command: "cd src && dotnet run --no-build"
+          input: "Tom Tester\n95\n1.75"
+          expected-output: "Übergewicht"
+          comparison-method: included
+          timeout: 10
+          max-score: 3
+
+      - name: TC-04 Starkes Uebergewicht
+        id: tc-04
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: "TC-04: Starkes Übergewicht"
+          command: "cd src && dotnet run --no-build"
+          input: "Anna Admin\n120\n1.75"
+          expected-output: "Starkes Übergewicht"
+          comparison-method: included
+          timeout: 10
+          max-score: 3
+
+      - name: TC-05 Fehlerfall Gewicht
+        id: tc-05
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: "TC-05: Fehlerfall ungültiges Gewicht"
+          command: "cd src && dotnet run --no-build"
+          input: "Fehler-Test\nabc\n1.75"
+          expected-output: "Fehler"
+          comparison-method: included
+          timeout: 10
+          max-score: 2
+
+      - name: TC-06 Fehlerfall Groesse
+        id: tc-06
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: "TC-06: Fehlerfall negative Größe"
+          command: "cd src && dotnet run --no-build"
+          input: "Fehler-Test\n70\n-1"
+          expected-output: "Fehler"
+          comparison-method: included
+          timeout: 10
+          max-score: 2
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          TC-01_RESULTS: "${{steps.tc-01.outputs.result}}"
+          TC-02_RESULTS: "${{steps.tc-02.outputs.result}}"
+          TC-03_RESULTS: "${{steps.tc-03.outputs.result}}"
+          TC-04_RESULTS: "${{steps.tc-04.outputs.result}}"
+          TC-05_RESULTS: "${{steps.tc-05.outputs.result}}"
+          TC-06_RESULTS: "${{steps.tc-06.outputs.result}}"
+        with:
+          runners: tc-01,tc-02,tc-03,tc-04,tc-05,tc-06

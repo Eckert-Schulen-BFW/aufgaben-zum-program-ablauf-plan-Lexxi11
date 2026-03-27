@@ -1,0 +1,74 @@
+{
+  "tests": [
+    {
+      "name": "Kompilierung erfolgreich",
+      "setup": "cd src && dotnet new console --force -o . 2>/dev/null; cp Program.cs Program.cs.bak 2>/dev/null; true",
+      "run": "cd src && dotnet build --nologo -q",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 30,
+      "points": 2
+    },
+    {
+      "name": "TC-01: Normalgewicht (70kg / 1.75m)",
+      "setup": "",
+      "run": "cd src && dotnet run --no-build",
+      "input": "Max Mustermann\n70\n1.75",
+      "output": "Normalgewicht",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "TC-02: Untergewicht (50kg / 1.70m)",
+      "setup": "",
+      "run": "cd src && dotnet run --no-build",
+      "input": "Lisa Beispiel\n50\n1.70",
+      "output": "Untergewicht",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "TC-03: Übergewicht (95kg / 1.75m)",
+      "setup": "",
+      "run": "cd src && dotnet run --no-build",
+      "input": "Tom Tester\n95\n1.75",
+      "output": "Übergewicht",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "TC-04: Starkes Übergewicht (120kg / 1.75m)",
+      "setup": "",
+      "run": "cd src && dotnet run --no-build",
+      "input": "Anna Admin\n120\n1.75",
+      "output": "Starkes Übergewicht",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "TC-05: Fehlerfall – ungültiges Gewicht",
+      "setup": "",
+      "run": "cd src && dotnet run --no-build",
+      "input": "Fehler-Test\nabc\n1.75",
+      "output": "Fehler",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 2
+    },
+    {
+      "name": "TC-06: Fehlerfall – negative Größe",
+      "setup": "",
+      "run": "cd src && dotnet run --no-build",
+      "input": "Fehler-Test\n70\n-1",
+      "output": "Fehler",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 2
+    }
+  ]
+}
