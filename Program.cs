@@ -8,7 +8,7 @@
 // AUFGABE 1 – Beantworte folgende Fragen hier als Kommentar:
 //
 // Frage 1: Wie viele Entscheidungsknoten (Rauten) hat der PAP?
-// Antwort: 
+// Antwort: genug
 //
 // Frage 2: Unter welchen Bedingungen endet das Programm frühzeitig?
 // Antwort: 
